@@ -3,15 +3,15 @@ package org.example.cliente;
 import javax.swing.*;
 import java.awt.*;
 
-public class TelaCliente extends JFrame {
+public class JanelaCliente extends JFrame {
     private JTextArea areaTexto;
     private JTextField campoMensagem;
     private JTextField campoNome;
     private JButton botaoConectar;
     private JButton botaoEnviar;
 
-    public TelaCliente() {
-        super("Cliente");
+    public JanelaCliente() {
+        super("Cliente de Chat");
 
         campoNome = new JTextField(15);
         botaoConectar = new JButton("Conectar");
@@ -19,26 +19,38 @@ public class TelaCliente extends JFrame {
         areaTexto.setEditable(false);
         campoMensagem = new JTextField(40);
         botaoEnviar = new JButton("Enviar");
+
         botaoEnviar.setEnabled(false);
         campoMensagem.setEnabled(false);
 
-        JPanel painelTopo = new JPanel();
-        painelTopo.add(new JLabel("Digite seu nome:"));
-        painelTopo.add(campoNome);
-        painelTopo.add(botaoConectar);
+        JPanel painelSuperior = new JPanel();
+        painelSuperior.add(new JLabel("Seu nome:"));
+        painelSuperior.add(campoNome);
+        painelSuperior.add(botaoConectar);
 
         JPanel painelInferior = new JPanel();
         painelInferior.add(campoMensagem);
         painelInferior.add(botaoEnviar);
 
         setLayout(new BorderLayout());
-        add(painelTopo, BorderLayout.NORTH);
+        add(painelSuperior, BorderLayout.NORTH);
         add(new JScrollPane(areaTexto), BorderLayout.CENTER);
         add(painelInferior, BorderLayout.SOUTH);
 
         setSize(600, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    public void ativarChat() {
+        botaoConectar.setEnabled(false);
+        campoNome.setEnabled(false);
+        campoMensagem.setEnabled(true);
+        botaoEnviar.setEnabled(true);
+    }
+
+    public void adicionarMensagem(String mensagem) {
+        SwingUtilities.invokeLater(() -> areaTexto.append(mensagem + "\n"));
     }
 
     public JTextArea getAreaTexto() { return areaTexto; }
@@ -46,8 +58,4 @@ public class TelaCliente extends JFrame {
     public JTextField getCampoNome() { return campoNome; }
     public JButton getBotaoConectar() { return botaoConectar; }
     public JButton getBotaoEnviar() { return botaoEnviar; }
-
-    public void adicionarMensagem(String msg) {
-        SwingUtilities.invokeLater(() -> areaTexto.append(msg + "\n"));
-    }
 }
